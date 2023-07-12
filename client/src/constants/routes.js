@@ -1,0 +1,9 @@
+export const HOMEPAGE = "/";
+export const REGISTER = "/register";
+export const LOGIN = "/login";
+export const CART = "/cart";
+export const CATEGORY = "/category";
+export const ABOUT = "/about";
+export const CONTACT = "/contact";
+export const POLICY = "/policy";
+export const NOTFOUND = "*";
