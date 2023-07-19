@@ -1,6 +1,8 @@
 export const HOMEPAGE = "/";
 export const REGISTER = "/register";
 export const LOGIN = "/login";
+export const FORGOTPASSWORD = "/forgot-password";
+export const DASHBOARD = "/dashboard";
 export const CART = "/cart";
 export const CATEGORY = "/category";
 export const ABOUT = "/about";

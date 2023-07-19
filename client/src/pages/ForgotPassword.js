@@ -2,36 +2,28 @@ import React, { useState } from "react";
 import Layout from "../components/Layout/Layout";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as ROUTES from "../constants/routes";
 import "../styles/AuthStyles.css";
-import { useAuth } from "../context/auth";
 
-const Login = () => {
+const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [auth, setAuth] = useAuth();
+  const [answer, setAnswer] = useState("");
+  const [newPassword, setNewPassword] = useState("");
 
   const navigate = useNavigate();
-  const location = useLocation();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_API}/api/v1/auth/login`,
-        { email, password }
+        `${process.env.REACT_APP_API}/api/v1/auth/forgot-password`,
+        { email, answer, newPassword }
       );
       if (res.data.success) {
-        toast.success(res.data.message);
-        setAuth({
-          ...auth,
-          user: res.data.user,
-          token: res.data.token,
-        });
-        localStorage.setItem("auth", JSON.stringify(res.data));
+        toast.success(res.data && res.data.message);
 
-        navigate(location.state || ROUTES.HOMEPAGE);
+        navigate(ROUTES.LOGIN);
       } else {
         toast.error(res.data.message);
       }
@@ -41,10 +33,10 @@ const Login = () => {
     }
   };
   return (
-    <Layout title="Register - ShopSwift">
+    <Layout>
       <div className="form-container">
         <form onSubmit={handleSubmit}>
-          <h4 className="title">LOGIN FORM</h4>
+          <h4 className="title">RESET PASSWORD</h4>
 
           <div className="mb-3">
             <input
@@ -60,31 +52,31 @@ const Login = () => {
 
           <div className="mb-3">
             <input
-              type="password"
+              type="text"
               className="form-control"
-              id="exampleInputPassword1"
-              placeholder="Enter your Password"
-              onChange={(event) => setPassword(event.target.value)}
-              value={password}
+              id="exampleInputAnswer"
+              placeholder="Enter Your Special Code"
+              onChange={(event) => setAnswer(event.target.value)}
+              value={answer}
               required
             />
           </div>
 
           <div className="mb-3">
-            <button
-              type="butten"
-              className="btn btn-primary"
-              onClick={() => {
-                navigate(ROUTES.FORGOTPASSWORD);
-              }}
-            >
-              Forgot Password
-            </button>
+            <input
+              type="password"
+              className="form-control"
+              id="exampleInputPassword1"
+              placeholder="Enter your Password"
+              onChange={(event) => setNewPassword(event.target.value)}
+              value={newPassword}
+              required
+            />
           </div>
 
           <div>
             <button type="submit" className="btn btn-primary">
-              LOGIN
+              RESET
             </button>
           </div>
         </form>
@@ -93,4 +85,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;
